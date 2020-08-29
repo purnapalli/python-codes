@@ -1,0 +1,25 @@
+def fetch_products(file_path):
+    import xlrd
+    wb = xlrd.open_workbook(file_path)
+    sheet = wb.sheet_by_index(0)
+    cols = sheet.ncols
+    rows = sheet.nrows
+    pillars = []
+    for col in range(0, cols):
+        for row in range(0, rows):
+            cell_value = sheet.cell_value(row, col)
+            if cell_value == 'X' or cell_value == 'x':
+                key = sheet.cell_value(0, col)
+                value = sheet.cell_value(row, 0)
+                pillars.append((key, value))
+    pillars_products = {}
+    for pillar, product in pillars:
+        if pillar not in pillars_products:
+            pillars_products[pillar] = [product]
+        else:
+            pillars_products[pillar].append(product)
+    return pillars_products
+
+
+pillar_products = fetch_products('C:\\Users\\ChakkaRa\\Desktop\\Pillars_Products.xlsx')
+print(pillar_products)
